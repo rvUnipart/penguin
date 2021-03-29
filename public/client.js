@@ -1,6 +1,5 @@
 // @ts-nocheck
 let ws;
-let editor;
 let chatUsersCtr = document.querySelector("#chatUsers");
 let chatUsersCount = document.querySelector("#chatUsersCount");
 let sendMessageForm = document.querySelector("#messageSendForm");
@@ -17,44 +16,19 @@ window.addEventListener("DOMContentLoaded", () => {
 
 sendMessageForm.onsubmit = (ev) => {
   ev.preventDefault();
-  submit();
-};
-
-leaveGroupBtn.onclick = () => {
-  window.location.href = 'chat.html';
-};
-
-function submit() {
-  if (!editor) {
-    return;
-  }
-  const content = editor.getContent();
-  if (!content) {
+  if (!messageInput.value){
     return;
   }
   const event = {
     event: "message",
-    data: content
+    data: messageInput.value,
   };
   ws.send(JSON.stringify(event));
-  editor.resetContent();
-}
+  messageInput.value = "";
+};
 
-function initTinyMCE() {
-  tinymce.init({
-    selector: '#messageInput',
-    plugins: 'autoresize link lists emoticons',
-    toolbar: 'bold italic underline strikethrough | forecolor | numlist bullist | link blockquote emoticons',
-    menubar: false,
-    statusbar: false,
-    width: '100%',
-    toolbar_location: 'bottom',
-    autoresize_bottom_margin: 0,
-    contextmenu: false,
-    setup: (ed) => {
-      editor = ed;
-    }
-  });
+leaveGroupBtn.onclick = () => {
+  window.location.href = 'chat.html';
 }
 
 function onConnectionOpen() {
@@ -92,7 +66,7 @@ function onMessageReceived(event) {
       const el = chatMessagesCtr;
       const scrollToBottom = Math.floor(el.offsetHeight + el.scrollTop) === el.scrollHeight
       appendMessage(event.data);
-
+      
       if (scrollToBottom) {
 
         el.scrollTop = 10000000;
@@ -111,7 +85,7 @@ function appendMessage(message) {
   }`;
   messageEl.innerHTML = `
         ${message.sender === "me" ? "" : `<h4>${message.name}</h4>`}
-        <div class="message-text">${message.message}</div>
+        <p class="message-text">${message.message}</p>
       `;
   chatMessagesCtr.appendChild(messageEl);
 }
@@ -127,5 +101,3 @@ function getQueryParams() {
 
   return params;
 }
-
-initTinyMCE();

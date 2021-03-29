@@ -5,9 +5,9 @@
 }
 
 :root {
-  --main-color: #3b474d;
-  --main-color-light: #89ebeb;
-  --main-color-dark: #263238;
+  --main-color: #d31111;
+  --main-color-light: #ca5b5b;
+  --main-color-dark: #0c09ec;
 }
 
 html, body {
@@ -156,17 +156,6 @@ button:active {
 
 .chat-messages .message .message-text {
   font-size: 80%;
-}
-
-.chat-messages .message .message-text ol,
-.chat-messages .message .message-text ul {
-  padding-inline-start: 10px;
-}
-
-.chat-messages .message .message-text blockquote {
-  border-left: 2px solid #ccc;
-  margin-left: 0.5rem;
-  padding-left: 0.5rem;
 }
 
 .chat-messages .message.message-to {
